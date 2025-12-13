@@ -1,0 +1,41 @@
+@import "./theme/fonts/fonts.css";
+@import "./loader.css";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  height: 100vh;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+:focus {
+  outline: none !important;
+}
+
+@media screen and (max-width: 640px) {
+  body,
+  html {
+    width: 100vw;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+
+.slick-track {
+  position: relative;
+  top: 0;
+  left: 0;
+  display: block;
+  margin: 0;
+}
