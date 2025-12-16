@@ -26,7 +26,7 @@ import {
 } from "../interface/types";
 import { useSnackBar } from "../context/SnackBarContext";
 import { useMyBag } from "../context/MyBagContext";
-import { NKS_ITEMS } from "../constants/Constants";
+import { CART_ITEMS_KEY } from "../constants/Constants";
 
 interface IProps {
   openAddToCart: boolean;
@@ -72,7 +72,7 @@ function AddToCartDialogModel(props: IProps) {
       var _sizeObj = {
         size: sizeObj.size,
         qty: sizeObj.inStock > 0 ? 1 : 0,
-        netWeight: sizeObj.netWeight
+        netWeight: sizeObj.netWeight,
       };
 
       setSizeWithQuantity((prevSizeWithQuantity) => [
@@ -124,7 +124,6 @@ function AddToCartDialogModel(props: IProps) {
             currentQty = item.qty;
           }
           return item;
-          
         });
       }
 
@@ -142,7 +141,7 @@ function AddToCartDialogModel(props: IProps) {
   const handleAddNowClick = () => {
     const updatedSizes = sizeWithQuantity.filter((size) => size.qty > 0);
 
-    var localStorageProductData = localStorage.getItem(NKS_ITEMS);
+    var localStorageProductData = localStorage.getItem(CART_ITEMS_KEY);
 
     var localStorageProductParse = localStorageProductData
       ? JSON.parse(localStorageProductData)
@@ -160,7 +159,7 @@ function AddToCartDialogModel(props: IProps) {
       const updatedProducts = existingCartProducts.filter(
         (product) => product.productId !== productDetailLocalStorage?.productId
       );
-      localStorage.setItem(NKS_ITEMS, JSON.stringify(updatedProducts));
+      localStorage.setItem(CART_ITEMS_KEY, JSON.stringify(updatedProducts));
 
       // Show the snackbar with a success message for product removal
       if (alreadyExist && updatedSizes.length === 0) {
@@ -192,7 +191,10 @@ function AddToCartDialogModel(props: IProps) {
         existingCartProducts.push(newItem);
       }
 
-      localStorage.setItem(NKS_ITEMS, JSON.stringify(existingCartProducts));
+      localStorage.setItem(
+        CART_ITEMS_KEY,
+        JSON.stringify(existingCartProducts)
+      );
       onClose();
       setSizeWithQuantity([]);
 

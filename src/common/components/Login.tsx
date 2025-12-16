@@ -73,11 +73,6 @@ function Login({ onLogin, requiredHeading, onRegisterLinkClick }: LoginProps) {
   const handleLogin = async (data: ILoginFormInputs) => {
     var loginData = {
       ...data,
-      role:
-        data.phoneNumber.trim() ===
-        `${import.meta.env.VITE_SUPER_CUSTOMER_PHONENUMBER}`
-          ? UserRoles.SUPER_CUSTOMER
-          : undefined,
     } as ILoginFormInputs;
 
     await login(loginData)
@@ -216,12 +211,12 @@ function Login({ onLogin, requiredHeading, onRegisterLinkClick }: LoginProps) {
             reset
           </Typography>
           <Typography sx={{ mt: 2 }} fontWeight="bold">
-            Call: 7010456239
+            Call: {import.meta.env.VITE_SHOP_PHONE1}
             <br />
             (or)
           </Typography>
 
-          <NavLink to={import.meta.env.VITE_NKS_WHATSAPP} target="_blank">
+          <NavLink to={import.meta.env.VITE_C_ASK_WHATSAPP} target="_blank">
             <Button
               variant="contained"
               sx={{

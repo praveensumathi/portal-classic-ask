@@ -1,5 +1,5 @@
-import Box from "@mui/material/Box";
 import React, { useEffect, useState } from "react";
+import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
@@ -23,12 +23,6 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import { isAuthorized } from "../../services/api";
 import ShippingAddress from "./ShippingAddress";
 import { useSnackBar } from "../../context/SnackBarContext";
-import { PhonePePaymentInitiateResponse } from "../../interface/phonepe.types";
-import {
-  LOCAL_STORAGE_NKS_DELIVERY_FEE,
-  LOCAL_STORAGE_NKS_PAYMENT_RESPONSE,
-  LOCAL_STORAGE_NKS_SHIPPING_DETAILS,
-} from "../../constants/Constants";
 import { useMyBag } from "../../context/MyBagContext";
 
 export default function VerticalLinearStepper() {
@@ -54,18 +48,6 @@ export default function VerticalLinearStepper() {
   useEffect(() => {
     checkIsAuthorized();
   }, []);
-
-  const handlePhonePePaymentInit = (
-    paymentInitiateResponse: PhonePePaymentInitiateResponse
-  ) => {
-    localStorage.setItem(
-      LOCAL_STORAGE_NKS_PAYMENT_RESPONSE,
-      JSON.stringify(paymentInitiateResponse)
-    );
-
-    window.location.href =
-      paymentInitiateResponse.data.instrumentResponse.redirectInfo.url;
-  };
 
   const handleArrowBackClick = () => {
     setShowConfirmationDialog(true);
@@ -174,7 +156,6 @@ export default function VerticalLinearStepper() {
               phoneNumber,
               customerName: customerName,
             }}
-            onPaymentInitiate={handlePhonePePaymentInit}
           />
         );
       default:
@@ -238,7 +219,7 @@ export default function VerticalLinearStepper() {
                             fontWeight: "800 !important",
                           },
                           "& .Mui-completed": {
-                            color: "#914298 !important",
+                            color: "#1B4C8C !important",
                             fontWeight: "800 !important",
                           },
                         }}

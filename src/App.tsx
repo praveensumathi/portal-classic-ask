@@ -20,9 +20,13 @@ import Orders from "./pages/Orders/Orders";
 import Login from "./common/components/Login";
 import OrderSuccessPage from "./pages/Orders/OrderSuccessPage";
 import OrderErrorPage from "./pages/Orders/OrderErrorPage";
-import PaymentProcessing from "./pages/CheckOut/PaymentProcessing";
+import { lazy } from "react";
 
 const queryClient = new QueryClient();
+
+const PaymentProcessing = lazy(
+  () => import("./pages/CheckOut/PaymentProcessing")
+);
 
 function App() {
   return (

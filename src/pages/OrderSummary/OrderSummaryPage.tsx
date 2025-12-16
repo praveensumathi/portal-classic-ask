@@ -18,33 +18,27 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { DrawerEnum, useDrawer } from "../../context/DrawerContext";
 import OrderErrorDialog from "../../pageDialogModels/OrderErrorDialog";
 import {
-  LOCAL_STORAGE_NKS_DELIVERY_FEE,
-  LOCAL_STORAGE_NKS_SHIPPING_DETAILS,
-  NKS_ITEMS,
+  LOCAL_STORAGE_DELIVERY_FEE,
+  LOCAL_STORAGE_SHIPPING_DETAILS,
+  CART_ITEMS_KEY,
   UserRoles,
 } from "../../constants/Constants";
 import { calculateDeliveryFee } from "../../common/utils/util";
-import { PhonePePaymentInitiateResponse } from "../../interface/phonepe.types";
 import { createProductOrder } from "../../services/api";
 import { useMyBag } from "../../context/MyBagContext";
+import { RazorpayPaymentResponse } from "../../interface/types";
 import {
-  RazorpayPaymentResponse 
-} from "../../interface/types";
-import { 
-  createRazorpayOrder, 
-  verifyRazorpayPayment, 
-  openRazorpayModal 
+  createRazorpayOrder,
+  verifyRazorpayPayment,
+  openRazorpayModal,
 } from "../../common/utils/paymentUtils";
 
 interface IProps {
-  onPaymentInitiate(
-    paymentInitiateResponse: PhonePePaymentInitiateResponse
-  ): void;
   shippingDetail: IOrderShippingdetail;
 }
 
 function OrderSummaryPage(props: IProps) {
-  const { shippingDetail, onPaymentInitiate } = props;
+  const { shippingDetail } = props;
 
   const { updateSnackBarState } = useSnackBar();
   const { user } = useAuthContext();
@@ -82,7 +76,7 @@ function OrderSummaryPage(props: IProps) {
 
   const fetchOrderTotalValue = async () => {
     try {
-      var localStorageProductData = localStorage.getItem(NKS_ITEMS);
+      var localStorageProductData = localStorage.getItem(CART_ITEMS_KEY);
 
       var localStorageProductParse = localStorageProductData
         ? JSON.parse(localStorageProductData)
@@ -113,7 +107,7 @@ function OrderSummaryPage(props: IProps) {
         }
 
         localStorage.setItem(
-          LOCAL_STORAGE_NKS_DELIVERY_FEE,
+          LOCAL_STORAGE_DELIVERY_FEE,
           JSON.stringify(calculatedDeliveryFee)
         );
       }
@@ -129,7 +123,7 @@ function OrderSummaryPage(props: IProps) {
 
   const checkOrderNowValidation = async () => {
     try {
-      var localStorageProductData = localStorage.getItem(NKS_ITEMS);
+      var localStorageProductData = localStorage.getItem(CART_ITEMS_KEY);
       var localStorageProductParse = localStorageProductData
         ? JSON.parse(localStorageProductData)
         : null;
@@ -172,7 +166,7 @@ function OrderSummaryPage(props: IProps) {
   //for the super customer only
   const placeOrderWithoutPayment = async () => {
     try {
-      const items = localStorage.getItem(NKS_ITEMS) ?? "";
+      const items = localStorage.getItem(CART_ITEMS_KEY) ?? "";
 
       if (!shippingDetail) {
         console.log("Error shippingDetail is missing");
@@ -190,7 +184,7 @@ function OrderSummaryPage(props: IProps) {
 
       await createProductOrder(data).then((res) => {
         if (res.success) {
-          localStorage.removeItem(NKS_ITEMS);
+          localStorage.removeItem(CART_ITEMS_KEY);
           updateSnackBarState(
             true,
             "Order has created successfully",
@@ -215,7 +209,7 @@ function OrderSummaryPage(props: IProps) {
 
   const handleOrderNowClick = () => {
     localStorage.setItem(
-      LOCAL_STORAGE_NKS_SHIPPING_DETAILS,
+      LOCAL_STORAGE_SHIPPING_DETAILS,
       JSON.stringify(shippingDetail)
     );
 
@@ -225,11 +219,13 @@ function OrderSummaryPage(props: IProps) {
   const handleRazorpayPaymentInitiate = async () => {
     try {
       // Create Razorpay order
-      const orderData = await createRazorpayOrder(checkout.orderTotal + deliveryFee);
+      const orderData = await createRazorpayOrder(
+        checkout.orderTotal + deliveryFee
+      );
 
       // Open Razorpay payment modal
       openRazorpayModal(
-        {...orderData},
+        { ...orderData },
         async (response: RazorpayPaymentResponse) => {
           try {
             // Verify payment
@@ -272,7 +268,7 @@ function OrderSummaryPage(props: IProps) {
     paidAmount: number
   ) => {
     try {
-      const items = localStorage.getItem(NKS_ITEMS) ?? "";
+      const items = localStorage.getItem(CART_ITEMS_KEY) ?? "";
 
       if (!shippingDetail) {
         console.log("Error shippingDetail is missing");
@@ -294,7 +290,7 @@ function OrderSummaryPage(props: IProps) {
 
       await createProductOrder(data).then((res) => {
         if (res.success) {
-          localStorage.removeItem(NKS_ITEMS);
+          localStorage.removeItem(CART_ITEMS_KEY);
           updateSnackBarState(
             true,
             "Order has created successfully",

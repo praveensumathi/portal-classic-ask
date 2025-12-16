@@ -15,10 +15,10 @@ import { useAuthContext } from "../../context/AuthContext";
 import { useSnackBar } from "../../context/SnackBarContext";
 import { paths } from "../../routes/paths";
 import {
-  LOCAL_STORAGE_NKS_DELIVERY_FEE,
-  LOCAL_STORAGE_NKS_PAYMENT_RESPONSE,
-  LOCAL_STORAGE_NKS_SHIPPING_DETAILS,
-  NKS_ITEMS,
+  LOCAL_STORAGE_DELIVERY_FEE,
+  LOCAL_STORAGE_PAYMENT_RESPONSE,
+  LOCAL_STORAGE_SHIPPING_DETAILS,
+  CART_ITEMS_KEY,
 } from "../../constants/Constants";
 import {
   PhonePePaymentInitiateResponse,
@@ -27,10 +27,10 @@ import {
 import { httpWithoutCredentials } from "../../services/http";
 import { IOrder, IOrderShippingdetail } from "../../interface/types";
 import { createProductOrder } from "../../services/api";
-import { useParams } from "react-router-dom"
+import { useParams } from "react-router-dom";
 
 export default function PaymentProcessing() {
-  let params = useParams()
+  let params = useParams();
 
   const navigate = useNavigate();
   const { updateMyBagCount } = useMyBag();
@@ -43,27 +43,27 @@ export default function PaymentProcessing() {
   const [deliveryFee, setDeliveryFee] = useState<number>(0);
   const [shippingDetail, setShippingDetail] = useState<IOrderShippingdetail>();
 
-  let intervalId;
+  let intervalId: any;
 
-  const PAYMENT_INITIATED = "PAYMENT_INITIATED";
-  const PAYMENT_SUCCESS = "PAYMENT_SUCCESS";
-  const PAYMENT_DECLINED = "PAYMENT_DECLINED";
-  const PAYMENT_ERROR = "PAYMENT_ERROR";
-  const TIMED_OUT = "TIMED_OUT";
+  // const PAYMENT_INITIATED = "PAYMENT_INITIATED";
+  // const PAYMENT_SUCCESS = "PAYMENT_SUCCESS";
+  // const PAYMENT_DECLINED = "PAYMENT_DECLINED";
+  // const PAYMENT_ERROR = "PAYMENT_ERROR";
+  // const TIMED_OUT = "TIMED_OUT";
 
-  useEffect(() => {
-    if (isPaymentIsInProgress) {
-      intervalId = setInterval(chcekPaymentStatus, 4000);
-    }
+  // useEffect(() => {
+  //   if (isPaymentIsInProgress) {
+  //     intervalId = setInterval(chcekPaymentStatus, 4000);
+  //   }
 
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [isPaymentIsInProgress]);
+  //   return () => {
+  //     clearInterval(intervalId);
+  //   };
+  // }, [isPaymentIsInProgress]);
 
   useEffect(() => {
     const stringifyPaymentInitiateResponse = localStorage.getItem(
-      LOCAL_STORAGE_NKS_PAYMENT_RESPONSE
+      LOCAL_STORAGE_PAYMENT_RESPONSE
     );
     const paymentInitiateResponse: PhonePePaymentInitiateResponse =
       stringifyPaymentInitiateResponse
@@ -73,7 +73,7 @@ export default function PaymentProcessing() {
     setPaymentInitiateResponse({ ...paymentInitiateResponse });
 
     const stringifyDeliveryFee = localStorage.getItem(
-      LOCAL_STORAGE_NKS_DELIVERY_FEE
+      LOCAL_STORAGE_DELIVERY_FEE
     );
     const _deliveryFee: number = stringifyDeliveryFee
       ? JSON.parse(stringifyDeliveryFee)
@@ -82,7 +82,7 @@ export default function PaymentProcessing() {
     setDeliveryFee(_deliveryFee);
 
     const stringifyShippingDetails = localStorage.getItem(
-      LOCAL_STORAGE_NKS_SHIPPING_DETAILS
+      LOCAL_STORAGE_SHIPPING_DETAILS
     );
     const shippingDetail: IOrderShippingdetail = stringifyShippingDetails
       ? JSON.parse(stringifyShippingDetails)
@@ -91,62 +91,62 @@ export default function PaymentProcessing() {
     setShippingDetail(shippingDetail);
 
     // setTimeout(() => {
-      setIsPaymentIsInProgress(true);
+    setIsPaymentIsInProgress(true);
     // }, 1000);
 
     return () => {
-      localStorage.removeItem(LOCAL_STORAGE_NKS_PAYMENT_RESPONSE);
-      localStorage.removeItem(LOCAL_STORAGE_NKS_SHIPPING_DETAILS);
-      localStorage.removeItem(LOCAL_STORAGE_NKS_DELIVERY_FEE);
+      localStorage.removeItem(LOCAL_STORAGE_PAYMENT_RESPONSE);
+      localStorage.removeItem(LOCAL_STORAGE_SHIPPING_DETAILS);
+      localStorage.removeItem(LOCAL_STORAGE_DELIVERY_FEE);
     };
   }, []);
 
-  const chcekPaymentStatus = async () => {
-    try {
-      if (
-        // paymentInitiateResponse &&
-        // paymentInitiateResponse.code == PAYMENT_INITIATED
-        true
-      ) {
-        const response =
-          await httpWithoutCredentials.post<PhonePePaymentStatucCheckResponse>(
-            `/payment/phonePeStatusCheck/${params.mId}/${params.mTxId}`
-          );
+  // const chcekPaymentStatus = async () => {
+  //   try {
+  //     if (
+  //       // paymentInitiateResponse &&
+  //       // paymentInitiateResponse.code == PAYMENT_INITIATED
+  //       true
+  //     ) {
+  //       const response =
+  //         await httpWithoutCredentials.post<PhonePePaymentStatucCheckResponse>(
+  //           `/payment/phonePeStatusCheck/${params.mId}/${params.mTxId}`
+  //         );
 
-        const paymentStatusResponse = response.data;
+  //       const paymentStatusResponse = response.data;
 
-        if (paymentStatusResponse) {
-          if (
-            paymentStatusResponse.code == PAYMENT_SUCCESS &&
-            paymentStatusResponse.success
-          ) {
-            clearInterval(intervalId);
-            placeOrder(paymentStatusResponse);
-          }
+  //       if (paymentStatusResponse) {
+  //         if (
+  //           paymentStatusResponse.code == PAYMENT_SUCCESS &&
+  //           paymentStatusResponse.success
+  //         ) {
+  //           clearInterval(intervalId);
+  //           placeOrder(paymentStatusResponse);
+  //         }
 
-          if (
-            paymentStatusResponse.code == PAYMENT_DECLINED ||
-            paymentStatusResponse.code == PAYMENT_ERROR ||
-            paymentStatusResponse.code == TIMED_OUT
-          ) {
-            clearInterval(intervalId);
-            updateSnackBarState(true, "Error while create order", "error");
-            navigate(paths.ORDERERROR);
-          }
-        }
-      }
-    } catch (error: any) {
-      clearInterval(intervalId);
-      updateSnackBarState(true, "Error while create order", "error");
-      navigate(paths.ORDERERROR);
-    }
-  };
+  //         if (
+  //           paymentStatusResponse.code == PAYMENT_DECLINED ||
+  //           paymentStatusResponse.code == PAYMENT_ERROR ||
+  //           paymentStatusResponse.code == TIMED_OUT
+  //         ) {
+  //           clearInterval(intervalId);
+  //           updateSnackBarState(true, "Error while create order", "error");
+  //           navigate(paths.ORDERERROR);
+  //         }
+  //       }
+  //     }
+  //   } catch (error: any) {
+  //     clearInterval(intervalId);
+  //     updateSnackBarState(true, "Error while create order", "error");
+  //     navigate(paths.ORDERERROR);
+  //   }
+  // };
 
   const placeOrder = async (
     paymentStatusResponse: PhonePePaymentStatucCheckResponse
   ) => {
     try {
-      const items = localStorage.getItem(NKS_ITEMS) ?? "";
+      const items = localStorage.getItem(CART_ITEMS_KEY) ?? "";
 
       if (!shippingDetail || !paymentInitiateResponse) {
         console.log(
@@ -163,7 +163,7 @@ export default function PaymentProcessing() {
         paymentInfo: {
           merchantId: paymentStatusResponse?.data.merchantId!,
           merchantTransactionId:
-          paymentStatusResponse?.data.merchantTransactionId!,
+            paymentStatusResponse?.data.merchantTransactionId!,
           status: paymentStatusResponse.code,
           originalTransactionId: paymentStatusResponse.data.transactionId,
         },
@@ -193,7 +193,7 @@ export default function PaymentProcessing() {
 
     clearInterval(intervalId);
 
-    localStorage.removeItem(NKS_ITEMS);
+    localStorage.removeItem(CART_ITEMS_KEY);
     updateMyBagCount();
     updateSnackBarState(true, "Order has created successfully", "success");
 

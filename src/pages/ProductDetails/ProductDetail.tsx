@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useProductDetailById } from "../../CustomHooksRQ/Category/Hooks";
 import {
-  NKS_ITEMS,
+  CART_ITEMS_KEY,
   ProductDetailsSliderSettings,
 } from "../../constants/Constants";
 import { IProductDetailLocalStorage } from "../../interface/types";
@@ -93,7 +93,7 @@ function ProductDetail() {
   };
 
   const handleAddToCard = () => {
-    var localStorageProductData = localStorage.getItem(NKS_ITEMS);
+    var localStorageProductData = localStorage.getItem(CART_ITEMS_KEY);
 
     var localStorageProductParse = localStorageProductData
       ? JSON.parse(localStorageProductData)
@@ -139,7 +139,7 @@ function ProductDetail() {
       existingProducts.push(newItem);
     }
 
-    localStorage.setItem(NKS_ITEMS, JSON.stringify(existingProducts));
+    localStorage.setItem(CART_ITEMS_KEY, JSON.stringify(existingProducts));
     updateMyBagCount();
     updateSnackBarState(true, "Product added successfully.", "success");
   };

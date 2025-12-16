@@ -30,7 +30,7 @@ import {
 import { httpWithoutCredentials } from "../../services/http";
 import { useSnackBar } from "../../context/SnackBarContext";
 import { useGetProductsByCategoryId } from "../../CustomHooksRQ/Category/Hooks";
-import { NKS_ITEMS } from "../../constants/Constants";
+import { CART_ITEMS_KEY } from "../../constants/Constants";
 import theme from "../../theme/theme";
 
 function CategoryProducts() {
@@ -81,7 +81,7 @@ function CategoryProducts() {
         setSelectedProductId(productId);
         setSizeWithQuantity([]);
 
-        var localStorageProductData = localStorage.getItem(NKS_ITEMS);
+        var localStorageProductData = localStorage.getItem(CART_ITEMS_KEY);
         var localStorageProductParse = localStorageProductData
           ? JSON.parse(localStorageProductData)
           : null;

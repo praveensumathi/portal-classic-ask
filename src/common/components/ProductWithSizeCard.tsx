@@ -42,7 +42,7 @@ import { paths } from "../../routes/paths";
 import { useMyBag } from "../../context/MyBagContext";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import TermsAndConditionDialog from "../../pageDialogModels/TermsAndConditionDialog";
-import { NKS_ITEMS } from "../../constants/Constants";
+import { CART_ITEMS_KEY } from "../../constants/Constants";
 
 function ProductWithSizeCard() {
   const { updateMyBagCount } = useMyBag();
@@ -79,7 +79,7 @@ function ProductWithSizeCard() {
   );
 
   const fetchMyBagProducts = async () => {
-    var localStorageProductData = localStorage.getItem(NKS_ITEMS);
+    var localStorageProductData = localStorage.getItem(CART_ITEMS_KEY);
 
     var localStorageProductParse = localStorageProductData
       ? JSON.parse(localStorageProductData)
@@ -126,7 +126,7 @@ function ProductWithSizeCard() {
       setSelectedProductId(productId);
       setSizeWithQuantity([]);
       setCheckOutValidationResult([]);
-      var localStorageProductData = localStorage.getItem(NKS_ITEMS);
+      var localStorageProductData = localStorage.getItem(CART_ITEMS_KEY);
 
       var localStorageProductParse = localStorageProductData
         ? JSON.parse(localStorageProductData)
@@ -176,7 +176,7 @@ function ProductWithSizeCard() {
   const handleDeleteConfirmation = () => {
     setDeleteConfirmationOpen(false);
     if (productIdToDelete) {
-      var localStorageProductData = localStorage.getItem(NKS_ITEMS);
+      var localStorageProductData = localStorage.getItem(CART_ITEMS_KEY);
 
       var localStorageProductParse = localStorageProductData
         ? JSON.parse(localStorageProductData)
@@ -188,7 +188,7 @@ function ProductWithSizeCard() {
       const updatedCardProducts = existingCartProducts.filter(
         (item) => item.productId !== productIdToDelete
       );
-      localStorage.setItem(NKS_ITEMS, JSON.stringify(updatedCardProducts));
+      localStorage.setItem(CART_ITEMS_KEY, JSON.stringify(updatedCardProducts));
 
       var _myBagProducts = myBagProducts.filter(
         (item) => item._id !== productIdToDelete
@@ -202,7 +202,7 @@ function ProductWithSizeCard() {
 
   const checkProceedToCheckOutValidation = async () => {
     try {
-      var localStorageProductData = localStorage.getItem(NKS_ITEMS);
+      var localStorageProductData = localStorage.getItem(CART_ITEMS_KEY);
       var localStorageProductParse = localStorageProductData
         ? JSON.parse(localStorageProductData)
         : null;

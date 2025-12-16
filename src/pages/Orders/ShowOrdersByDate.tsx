@@ -36,7 +36,7 @@ function ShowOrdersByDate() {
   const returnExchangeInfo = [
     "Return or Exchange accepted only for Damaged, Wrong product, Wrong size received from us. [No other reasons are accepted]",
     "Parcel opening video is mandatory for reporting any of these above-mentioned issues.",
-    "Contact for any other Inquiries: +91 7010456239",
+    `Contact for any other Inquiries: +91 ${import.meta.env.VITE_SHOP_PHONE1}`,
   ];
 
   const fetchOrdersByUserId = async () => {

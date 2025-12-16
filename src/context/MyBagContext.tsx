@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useState, createContext, useEffect } from "react";
 import { IMyBagCountValue } from "../interface/types";
-import { NKS_ITEMS } from "../constants/Constants";
+import { CART_ITEMS_KEY } from "../constants/Constants";
 
 export const MyBagContext = createContext<IMyBagCountValue>({
   mybagCount: 0,
@@ -12,7 +12,7 @@ function BagProvider({ children }) {
   const [mybagCount, setMybagCount] = useState(0);
 
   const updateMyBagCount = () => {
-    var localStorageProductData = localStorage.getItem(NKS_ITEMS);
+    var localStorageProductData = localStorage.getItem(CART_ITEMS_KEY);
 
     var localStorageProductParse = localStorageProductData
       ? JSON.parse(localStorageProductData)

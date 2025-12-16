@@ -62,13 +62,15 @@ function Footer() {
                   <Typography variant="h5" sx={{ mb: 2 }}>
                     Shop Address
                   </Typography>
-                  <Typography variant="h5">NKS Collections</Typography>
+                  <Typography variant="h5">
+                    Classic Style - Payans Men's Wear
+                  </Typography>
                   <Typography>
-                    Park Rd, nearby MATHURAI VEERAN TEMPLE, C E B Colony,
-                    BACKSIDE, Namakkal, Tamil Nadu 637001
+                    Classic Style Payans Men's Wear, Near Clock Tower Namakkal
+                    637001, Namakkal, Tamil Nadu 637001
                   </Typography>
                   <Link
-                    to={`${import.meta.env.VITE_NKS_LOCATION}`}
+                    to={`${import.meta.env.VITE_C_ASK_LOCATION}`}
                     target="_blank"
                   >
                     <Button
@@ -95,7 +97,7 @@ function Footer() {
                   <Typography variant="h5" sx={{ mb: 2 }}>
                     General Enquiries
                   </Typography>
-                  <Typography>venusethnic@gmail.com</Typography>
+                  <Typography>{import.meta.env.VITE_SHOP_MAIL}</Typography>
                   <Box
                     sx={{
                       gap: 2,
@@ -106,7 +108,7 @@ function Footer() {
                     }}
                   >
                     <a
-                      href="mailto:venusethnic@gmail.com"
+                      href={`mailto:${import.meta.env.VITE_SHOP_MAIL}`}
                       style={{ textDecoration: "none", color: "white" }}
                     >
                       <Button
@@ -125,7 +127,7 @@ function Footer() {
                       </Button>
                     </a>
                     <Link
-                      to={`${import.meta.env.VITE_NKS_WHATSAPP}`}
+                      to={`${import.meta.env.VITE_C_ASK_WHATSAPP}`}
                       target="_blank"
                     >
                       <Button
@@ -159,32 +161,32 @@ function Footer() {
                   <Typography variant="h5" sx={{ mb: 2 }}>
                     Call us
                   </Typography>
-                  <Typography>8668026647</Typography>
+                  <Typography>{import.meta.env.VITE_SHOP_PHONE1}</Typography>
                   <Box mt={1}>
-                    <Link
-                      to={`${import.meta.env.VITE_NKS_FACEBOOK}`}
+                    {/* <Link
+                      to={`${import.meta.env.VITE_C_ASK_FACEBOOK}`}
                       target="_blank"
                     >
                       <IconButton>
                         <FacebookRoundedIcon sx={socialMediaIconStyles} />
                       </IconButton>
-                    </Link>
+                    </Link> */}
                     <Link
-                      to={`${import.meta.env.VITE_NKS_INSTAGRAM}`}
+                      to={`${import.meta.env.VITE_C_ASK_INSTAGRAM}`}
                       target="_blank"
                     >
                       <IconButton>
                         <Instagram sx={socialMediaIconStyles} />
                       </IconButton>
                     </Link>
-                    <Link
-                      to={`${import.meta.env.VITE_NKS_YOUTUBE}`}
+                    {/* <Link
+                      to={`${import.meta.env.VITE_C_ASK_YOUTUBE}`}
                       target="_blank"
                     >
                       <IconButton>
                         <YouTubeIcon sx={socialMediaIconStyles} />
                       </IconButton>
-                    </Link>
+                    </Link> */}
                   </Box>
                 </Box>
               </Fade>

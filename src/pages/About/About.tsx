@@ -16,21 +16,19 @@ function About() {
       content: (
         <>
           <Typography variant="body2">
-            Venus Ethnic (Our Offline Store Name: NKS Collections)
+            {import.meta.env.VITE_SHOP_NAME}
             <br />
-            627B, Anna Nagar,Poyyerikarai main road,
+            Classic Style Payans Men's Wear Near Clock Tower,
             <br />
             NAMAKKAL – 637001
             <br />
             <br />
-            Email: venusethnic@gmail.com
+            Email: {import.meta.env.VITE_SHOP_MAIL}
+            <br />
+            Contact for any other Inquiries: +91 9994698600
             <br />
             <br />
-            Contact for password change/any complaints: +91 7010456239
-            <br />
-            Contact for any other Inquiries: +91 8668026647
-            <br />
-            <NavLink to={import.meta.env.VITE_NKS_WHATSAPP} target="_blank">
+            <NavLink to={import.meta.env.VITE_C_ASK_WHATSAPP} target="_blank">
               <Button
                 variant="contained"
                 sx={{
@@ -87,13 +85,6 @@ function About() {
             saved.
             <br />
             <br />
-            For more insight, you may also want to read terms and conditions of
-            Phonepe on &nbsp;
-            <a href="https://www.phonepe.com/" target="_blank">
-              https://www.phonepe.com/
-            </a>
-            <br />
-            <br />
             SECTION 4 – SECURITY
             <br />
             <br />
@@ -115,7 +106,7 @@ function About() {
             <br />
             If you would like to: access, correct, amend or delete any personal
             information we have about you, register a complaint, or simply want
-            more information contact us +91 7010456239
+            more information contact us +91 {import.meta.env.VITE_SHOP_PHONE1}
           </Typography>
         </>
       ),
@@ -146,11 +137,11 @@ function About() {
             particular purpose, durability, title, and non infringement.
             <br />
             <br />
-            In no case shall NKS Collections (venusethnic),our officers,
-            employees, affiliates, agents, contractors, interns, suppliers,
-            service providers or licensors be liable for any injury, loss,
-            claim, or any direct, indirect, incidental, punitive, special, or
-            consequential damages of any kind, including, without limitation
+            In no case shall {import.meta.env.VITE_SHOP_NAME} Collections ,our
+            officers, employees, affiliates, agents, contractors, interns,
+            suppliers, service providers or licensors be liable for any injury,
+            loss, claim, or any direct, indirect, incidental, punitive, special,
+            or consequential damages of any kind, including, without limitation
             lost profits, lost revenue, lost savings, loss of data, replacement
             costs, or any similar damages, whether based in contract, tort
             (including negligence), strict liability or otherwise, arising from
@@ -230,7 +221,7 @@ function About() {
             Our Privacy Policy is subject to change at any time without notice.
             To make sure you are aware of any changes, please review this policy
             periodically. These changes will be effective immediately on the
-            Users of NKS Collections (venusethnic). Please note that at all
+            Users of {import.meta.env.VITE_SHOP_NAME}. Please note that at all
             times you are responsible for updating your Personal Information,
             including to provide us with your most current contact details (i.e
             address, mail Id, contact number, etc.,)
@@ -277,8 +268,8 @@ function About() {
             working days. Apart from Sundays, there are certain holidays
             throughout the year that are not considered as business days.
             Deliveries will not happen on these days. Please contact us through
-            WhatsApp +91 7010456239, if your parcel not delivered within the
-            given timeline.
+            WhatsApp +91 {import.meta.env.VITE_SHOP_PHONE1}, if your parcel not
+            delivered within the given timeline.
             <br />
             <br />
             Charges – We utilize the services of reputed courier service
@@ -352,10 +343,13 @@ function About() {
             responsible for replacement.
             <br />
             <br />
-            You can call our Support Number or Whatsapp 07010456239 or Email Us
-            at &nbsp;
-            <a href=" venus.ethnic@gmail.com" target="_blank">
-              venus.ethnic@gmail.com
+            You can call our Support Number or Whatsapp{" "}
+            {import.meta.env.VITE_SHOP_PHONE1} or Email Us at &nbsp;
+            <a
+              href={`mailto:${import.meta.env.VITE_SHOP_MAIL}`}
+              target="_blank"
+            >
+              {import.meta.env.VITE_SHOP_MAIL}
             </a>
             &nbsp; for any of the above-mentioned reasons of return.
             <br />
@@ -459,7 +453,7 @@ function About() {
                         <b>{`${index + 1}. ${item.title}`}</b>
                       </div>
                       <Typography variant="body2" sx={{ opacity: 0.6 }}>
-                        (Last updated on Oct 21th 2023)
+                        (Last updated on Dec 20th 2025)
                       </Typography>
                     </>
                   }

@@ -1,8 +1,8 @@
 import { httpWithoutCredentials } from "../../services/http";
-import { 
-  RazorpayOrderResponse, 
+import {
+  RazorpayOrderResponse,
   RazorpayPaymentResponse,
-  RazorpayVerifyRequest 
+  RazorpayVerifyRequest,
 } from "../../interface/types";
 
 // Define a response model for type safety
@@ -18,14 +18,17 @@ type RazorpayOrderApiResponse = {
   message: string;
 };
 
-export const createRazorpayOrder = async (amount: number): Promise<RazorpayOrderResponse> => {
+export const createRazorpayOrder = async (
+  amount: number
+): Promise<RazorpayOrderResponse> => {
   try {
-    const response = await httpWithoutCredentials.post<RazorpayOrderApiResponse>(
-      "/payment/createRazorpayOrder",
-      {
-        amount: Math.round(amount * 100), // Convert to paise
-      }
-    );
+    const response =
+      await httpWithoutCredentials.post<RazorpayOrderApiResponse>(
+        "/payment/createRazorpayOrder",
+        {
+          amount: Math.round(amount * 100), // Convert to paise
+        }
+      );
     const data = response.data.data;
     console.log("Razorpay order response:", data);
     return data;
@@ -38,13 +41,14 @@ export const verifyRazorpayPayment = async (
   paymentData: RazorpayVerifyRequest
 ): Promise<any> => {
   try {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = paymentData;
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+      paymentData;
     const response = await httpWithoutCredentials.post(
       "/payment/verifyRazorpayPayment",
       {
         razorpay_order_id,
         razorpay_payment_id,
-        razorpay_signature
+        razorpay_signature,
       }
     );
     return response.data;
@@ -68,20 +72,20 @@ export const openRazorpayModal = (
     amount: orderData.amount,
     //amount: 1 * 100,
     currency: orderData.currency,
-    name: "Venus Ethnic",
+    name: import.meta.env.VITE_SHOP_NAME,
     description: "Order Payment",
     image: "/assets/images/Logo2.jpg",
     order_id: orderData.orderId,
-    handler: (res) =>{
-        console.log("openRazorpayModal response", res);
-        
-        onSuccess(res);
+    handler: (res) => {
+      console.log("openRazorpayModal response", res);
+
+      onSuccess(res);
     },
     modal: {
       ondismiss: onCancel,
     },
     theme: {
-      color: "#914298",
+      color: "#1B4C8C",
     },
     config: {
       display: {
@@ -104,4 +108,4 @@ export const openRazorpayModal = (
   rzp1.open();
 
   return rzp1;
-}; 
+};

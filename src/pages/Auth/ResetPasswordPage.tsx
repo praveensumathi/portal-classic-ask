@@ -85,7 +85,9 @@ const ResetPasswordPage = () => {
                 alt=""
               />
             </Link>
-            <Typography sx={{ fontWeight: 600 }}>Venus Ethnic</Typography>
+            <Typography sx={{ fontWeight: 600 }}>
+              {import.meta.env.VITE_SHOP_NAME}
+            </Typography>
           </Box>
         </Toolbar>
       </AppBar>

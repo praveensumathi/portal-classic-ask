@@ -24,7 +24,7 @@ import {
   FullScreenDrawerWidth,
   NavBarDrawerWidthDesktop,
   NavBarDrawerWidthMobile,
-  NKS_ITEMS,
+  CART_ITEMS_KEY,
 } from "../../constants/Constants";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
@@ -108,7 +108,7 @@ function Navbar() {
     await logOut()
       .then((response) => {
         if (response.status) {
-          localStorage.removeItem(NKS_ITEMS);
+          localStorage.removeItem(CART_ITEMS_KEY);
           updateUserData(null);
           navigate(paths.ROOT);
           handleCloseMenu();
@@ -168,7 +168,9 @@ function Navbar() {
                   alt=""
                 />
               </Link>
-              <Typography sx={{ fontWeight: 600 }}>Venus Ethnic</Typography>
+              <Typography sx={{ fontWeight: 600 }}>
+                {import.meta.env.VITE_SHOP_NAME}
+              </Typography>
             </Box>
             <Stack
               flexDirection={"row"}

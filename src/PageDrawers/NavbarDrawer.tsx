@@ -71,7 +71,7 @@ function NavbarDrawer() {
         }}
       >
         <Typography color="primary" sx={{ fontWeight: 600 }} fontSize={"large"}>
-          Venus Ethnic
+          {import.meta.env.VITE_SHOP_NAME}
         </Typography>
         <ArrowBackIosIcon
           sx={{ fontSize: "large", cursor: "pointer" }}
@@ -121,7 +121,7 @@ function NavbarDrawer() {
         }}
       >
         <Typography sx={{ display: "flex", alignItems: "center" }}>
-          &copy; {new Date().getFullYear()} Venusethnic
+          &copy; {new Date().getFullYear()} Classic-ASK
         </Typography>
         <Typography>All rights reserved.</Typography>
       </Box>
