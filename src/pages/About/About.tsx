@@ -16,7 +16,6 @@ function About() {
       content: (
         <>
           <Typography variant="body2">
-            {import.meta.env.VITE_SHOP_NAME}
             <br />
             Classic Style Payans Men's Wear Near Clock Tower,
             <br />
@@ -137,8 +136,8 @@ function About() {
             particular purpose, durability, title, and non infringement.
             <br />
             <br />
-            In no case shall {import.meta.env.VITE_SHOP_NAME} Collections ,our
-            officers, employees, affiliates, agents, contractors, interns,
+            In no case shall {import.meta.env.VITE_SHOP_ALTER_NAME} Collections
+            ,our officers, employees, affiliates, agents, contractors, interns,
             suppliers, service providers or licensors be liable for any injury,
             loss, claim, or any direct, indirect, incidental, punitive, special,
             or consequential damages of any kind, including, without limitation
@@ -221,10 +220,10 @@ function About() {
             Our Privacy Policy is subject to change at any time without notice.
             To make sure you are aware of any changes, please review this policy
             periodically. These changes will be effective immediately on the
-            Users of {import.meta.env.VITE_SHOP_NAME}. Please note that at all
-            times you are responsible for updating your Personal Information,
-            including to provide us with your most current contact details (i.e
-            address, mail Id, contact number, etc.,)
+            Users of {import.meta.env.VITE_SHOP_ALTER_NAME}. Please note that at
+            all times you are responsible for updating your Personal
+            Information, including to provide us with your most current contact
+            details (i.e address, mail Id, contact number, etc.,)
             <br />
             <br />
             If you do not wish to permit changes in our use of your Personal

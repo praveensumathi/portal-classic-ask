@@ -169,7 +169,7 @@ function Navbar() {
                 />
               </Link>
               <Typography sx={{ fontWeight: 600 }}>
-                {import.meta.env.VITE_SHOP_NAME}
+                {import.meta.env.VITE_SHOP_BRAND_NAME}
               </Typography>
             </Box>
             <Stack

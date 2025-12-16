@@ -72,7 +72,7 @@ export const openRazorpayModal = (
     amount: orderData.amount,
     //amount: 1 * 100,
     currency: orderData.currency,
-    name: import.meta.env.VITE_SHOP_NAME,
+    name: import.meta.env.VITE_SHOP_BRAND_NAME,
     description: "Order Payment",
     image: "/assets/images/Logo2.jpg",
     order_id: orderData.orderId,

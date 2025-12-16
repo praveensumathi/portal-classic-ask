@@ -71,7 +71,7 @@ function NavbarDrawer() {
         }}
       >
         <Typography color="primary" sx={{ fontWeight: 600 }} fontSize={"large"}>
-          {import.meta.env.VITE_SHOP_NAME}
+          {import.meta.env.VITE_SHOP_BRAND_NAME}
         </Typography>
         <ArrowBackIosIcon
           sx={{ fontSize: "large", cursor: "pointer" }}
