@@ -224,6 +224,13 @@ function OrderSummaryPage(props: IProps) {
       );
 
       // Open Razorpay payment modal
+      const prefill = {
+        name: user?.name ?? shippingDetail.customerName,
+        // email isn't part of IUser in all cases; prefer if available on user profile
+        email: (user as any)?.email ?? "",
+        contact: user?.phoneNumber ?? shippingDetail.phoneNumber,
+      };
+
       openRazorpayModal(
         { ...orderData },
         async (response: RazorpayPaymentResponse) => {
@@ -254,7 +261,8 @@ function OrderSummaryPage(props: IProps) {
         },
         () => {
           updateSnackBarState(true, "Payment cancelled", "info");
-        }
+        },
+        prefill
       );
     } catch (error: any) {
       console.error("Error initiating Razorpay payment:", error);

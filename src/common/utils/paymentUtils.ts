@@ -61,7 +61,12 @@ export const openRazorpayModal = (
   orderData: RazorpayOrderResponse,
   onSuccess: (response: RazorpayPaymentResponse) => void,
   onFailure: (error: any) => void,
-  onCancel: () => void
+  onCancel: () => void,
+  prefillData?: {
+    name?: string | null;
+    email?: string | null;
+    contact?: string | null;
+  }
 ) => {
   console.log("Opening Razorpay modal with order data:", orderData);
   console.log("Amount being sent to Razorpay:", orderData.amount);
@@ -74,12 +79,18 @@ export const openRazorpayModal = (
     currency: orderData.currency,
     name: import.meta.env.VITE_SHOP_BRAND_NAME,
     description: "Order Payment",
-    image: "/assets/images/Logo2.jpg",
+    //image: "/assets/images/Logo2.jpg",
     order_id: orderData.orderId,
     handler: (res) => {
       console.log("openRazorpayModal response", res);
 
       onSuccess(res);
+    },
+    prefill: {
+      // Prefer provided prefillData, fall back to empty strings
+      name: prefillData?.name ?? "",
+      email: prefillData?.email ?? "",
+      contact: prefillData?.contact ?? "",
     },
     modal: {
       ondismiss: onCancel,
@@ -88,16 +99,7 @@ export const openRazorpayModal = (
       color: "#1B4C8C",
     },
     config: {
-      display: {
-        hide: [
-          {
-            method: "cardless_emi",
-          },
-          {
-            method: "paylater",
-          },
-        ],
-      },
+      checkout_config_id: import.meta.env.VITE_RAZORPAY_OPTIONS_CONFIGID,
     },
     allow_rotation: true,
   };
