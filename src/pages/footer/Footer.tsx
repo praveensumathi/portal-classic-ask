@@ -70,7 +70,7 @@ function Footer() {
                     637001, Namakkal, Tamil Nadu 637001
                   </Typography>
                   <Link
-                    to={`${import.meta.env.VITE_C_ASK_LOCATION}`}
+                    to={`${import.meta.env.VITE_SHOP_LOCATION_URL}`}
                     target="_blank"
                   >
                     <Button
@@ -127,7 +127,7 @@ function Footer() {
                       </Button>
                     </a>
                     <Link
-                      to={`${import.meta.env.VITE_C_ASK_WHATSAPP}`}
+                      to={`${import.meta.env.VITE_WHATSAPP_URL}`}
                       target="_blank"
                     >
                       <Button
@@ -164,7 +164,7 @@ function Footer() {
                   <Typography>{import.meta.env.VITE_SHOP_PHONE1}</Typography>
                   <Box mt={1}>
                     {/* <Link
-                      to={`${import.meta.env.VITE_C_ASK_FACEBOOK}`}
+                      to={`${import.meta.env.VITE_FACEBOOK_URL}`}
                       target="_blank"
                     >
                       <IconButton>
@@ -172,7 +172,7 @@ function Footer() {
                       </IconButton>
                     </Link> */}
                     <Link
-                      to={`${import.meta.env.VITE_C_ASK_INSTAGRAM}`}
+                      to={`${import.meta.env.VITE_INSTAGRAM_URL}`}
                       target="_blank"
                     >
                       <IconButton>
@@ -180,7 +180,7 @@ function Footer() {
                       </IconButton>
                     </Link>
                     {/* <Link
-                      to={`${import.meta.env.VITE_C_ASK_YOUTUBE}`}
+                      to={`${import.meta.env.VITE_YOUTUBE_URL}`}
                       target="_blank"
                     >
                       <IconButton>

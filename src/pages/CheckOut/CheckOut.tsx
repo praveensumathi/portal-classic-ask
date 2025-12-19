@@ -24,6 +24,7 @@ import { isAuthorized } from "../../services/api";
 import ShippingAddress from "./ShippingAddress";
 import { useSnackBar } from "../../context/SnackBarContext";
 import { useMyBag } from "../../context/MyBagContext";
+import theme from "../../theme/theme";
 
 export default function VerticalLinearStepper() {
   const navigate = useNavigate();
@@ -219,7 +220,7 @@ export default function VerticalLinearStepper() {
                             fontWeight: "800 !important",
                           },
                           "& .Mui-completed": {
-                            color: "#1B4C8C !important",
+                            color: `${theme.palette.primary.main} !important`,
                             fontWeight: "800 !important",
                           },
                         }}

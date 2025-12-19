@@ -216,7 +216,7 @@ function Login({ onLogin, requiredHeading, onRegisterLinkClick }: LoginProps) {
             (or)
           </Typography>
 
-          <NavLink to={import.meta.env.VITE_C_ASK_WHATSAPP} target="_blank">
+          <NavLink to={import.meta.env.VITE_WHATSAPP_URL} target="_blank">
             <Button
               variant="contained"
               sx={{

@@ -27,7 +27,7 @@ function About() {
             Contact for any other Inquiries: +91 9994698600
             <br />
             <br />
-            <NavLink to={import.meta.env.VITE_C_ASK_WHATSAPP} target="_blank">
+            <NavLink to={import.meta.env.VITE_WHATSAPP_URL} target="_blank">
               <Button
                 variant="contained"
                 sx={{

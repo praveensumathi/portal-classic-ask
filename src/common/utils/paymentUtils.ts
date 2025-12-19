@@ -4,6 +4,7 @@ import {
   RazorpayPaymentResponse,
   RazorpayVerifyRequest,
 } from "../../interface/types";
+import theme from "../../theme/theme";
 
 // Define a response model for type safety
 type RazorpayOrderApiResponse = {
@@ -73,7 +74,7 @@ export const openRazorpayModal = (
   console.log("Amount in rupees (amount/100):", orderData.amount / 100);
 
   const options = {
-    key: orderData.key,
+    key: import.meta.env.VITE_RAZORPAY_KEY_ID,
     amount: orderData.amount,
     //amount: 1 * 100,
     currency: orderData.currency,
@@ -100,7 +101,7 @@ export const openRazorpayModal = (
       ondismiss: onCancel,
     },
     theme: {
-      color: "#1B4C8C",
+      color: theme.palette.primary.main,
     },
     config: {
       checkout_config_id: import.meta.env.VITE_RAZORPAY_OPTIONS_CONFIGID,
