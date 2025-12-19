@@ -86,6 +86,9 @@ export const openRazorpayModal = (
 
       onSuccess(res);
     },
+    retry: {
+      enabled: false,
+    },
     prefill: {
       // Prefer provided prefillData, fall back to empty strings
       name: prefillData?.name ?? "",
@@ -93,6 +96,7 @@ export const openRazorpayModal = (
       contact: prefillData?.contact ?? "",
     },
     modal: {
+      confirm_close: true,
       ondismiss: onCancel,
     },
     theme: {
@@ -104,10 +108,14 @@ export const openRazorpayModal = (
     allow_rotation: true,
   };
 
-  const rzp1 = new (window as any).Razorpay(options);
+  const rzp = new (window as any).Razorpay(options);
 
-  rzp1.on("payment.failed", onFailure);
-  rzp1.open();
+  // rzp1.on("payment.failed", onFailure);
+  rzp.on("payment.failed", function (response) {
+    rzp.close();
+    onFailure(response);
+  });
+  rzp.open();
 
-  return rzp1;
+  return rzp;
 };

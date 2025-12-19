@@ -88,7 +88,7 @@ function Footer() {
             <Divider
               orientation="vertical"
               flexItem
-              sx={{ background: "white" }}
+              sx={{ background: "white", ml: 2 }}
             />
             <Grid item lg={3.5} xs={12} className={classes.commonGridStyle}>
               <Fade bottom delay={300}>

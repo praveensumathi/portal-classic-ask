@@ -256,7 +256,7 @@ function OrderSummaryPage(props: IProps) {
         },
         (response: any) => {
           console.log("Payment failed:", response);
-          updateSnackBarState(true, response.error.reason, "error");
+          updateSnackBarState(true, response.error.description, "error");
           navigate(paths.ORDERERROR);
         },
         () => {
