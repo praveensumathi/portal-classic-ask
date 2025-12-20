@@ -10,14 +10,14 @@ function OrderErrorPage() {
   const navigate = useNavigate();
   const whatsappUrl = import.meta.env?.VITE_WHATSAPP_URL ?? "https://wa.me/";
 
-  useEffect(() => {
-    const redirectTimer = setTimeout(() => {
-      navigate(paths.ROOT);
-    }, 3000);
-    return () => {
-      clearTimeout(redirectTimer);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const redirectTimer = setTimeout(() => {
+  //     navigate(paths.ROOT);
+  //   }, 3000);
+  //   return () => {
+  //     clearTimeout(redirectTimer);
+  //   };
+  // }, []);
 
   return (
     <Container
@@ -53,8 +53,8 @@ function OrderErrorPage() {
           <Bounce>
             <Box
               sx={(theme) => ({
-                width: { xs: 48, sm: 64, md: 88 },
-                height: { xs: 48, sm: 64, md: 88 },
+                width: { xs: 35, sm: 55, md: 65 },
+                height: { xs: 35, sm: 55, md: 65 },
                 mx: "auto",
                 borderRadius: "50%",
                 bgcolor: theme.palette.error.main,
@@ -91,8 +91,8 @@ function OrderErrorPage() {
               flexWrap: "wrap",
             }}
           >
-            <Link to={`/${paths.ORDERS}`}>
-              <Button variant="outlined">View Orders</Button>
+            <Link to={`${paths.ROOT}`}>
+              <Button variant="outlined">Go to home</Button>
             </Link>
 
             <Button
