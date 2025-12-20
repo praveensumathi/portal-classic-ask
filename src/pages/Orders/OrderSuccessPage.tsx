@@ -25,16 +25,16 @@ function OrderSuccessPage() {
   });
 
   useEffect(() => {
-    // const redirectTimer = setTimeout(() => {
-    //   navigate(paths.ROOT);
-    // }, 3000);
-    // return () => {
-    //   clearTimeout(redirectTimer);
-    // };
+    const redirectTimer = setTimeout(() => {
+      navigate(paths.ROOT);
+    }, 3000);
+    return () => {
+      clearTimeout(redirectTimer);
+    };
   }, []);
 
   useEffect(() => {
-    const confettiTimer = setTimeout(() => setShowConfetti(false), 3000);
+    const confettiTimer = setTimeout(() => setShowConfetti(false), 2800);
     const updateSource = () => {
       setWidth(window.innerWidth);
       setHeight(window.innerHeight);
