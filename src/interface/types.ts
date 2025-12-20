@@ -121,7 +121,7 @@ export interface IOrderFilter {
   orderedDateAndTime: Date;
   productdetail: IProductdetailFilter[];
   showposter: string;
-  deliveryFee: number
+  deliveryFee: number;
 }
 
 export interface IProductdetailFilter {
@@ -179,7 +179,7 @@ export interface ILoginResponse {
 export interface ILoginFormInputs {
   phoneNumber: string;
   password: string;
-  role?: string
+  role?: string;
 }
 
 export interface ISignUp {
@@ -235,7 +235,7 @@ export interface IRazorPay {
 }
 
 export interface RazorpayOrderResponse {
-  orderId:string;
+  orderId: string;
   amount: number;
   currency: string;
   receipt: string;
@@ -250,6 +250,12 @@ export interface RazorpayPaymentBase {
 export interface RazorpayPaymentResponse extends RazorpayPaymentBase {}
 
 export interface RazorpayVerifyRequest extends RazorpayPaymentBase {}
+
+export interface RazorpayVerifyResponse {
+  razorpay_payment_id: string;
+  razorpay_order_id: string;
+  verified: boolean;
+}
 
 export type PhonePePaymentInitiateData = {
   merchantId: string;

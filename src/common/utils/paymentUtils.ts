@@ -1,8 +1,10 @@
 import { httpWithoutCredentials } from "../../services/http";
 import {
+  CommonResponse,
   RazorpayOrderResponse,
   RazorpayPaymentResponse,
   RazorpayVerifyRequest,
+  RazorpayVerifyResponse,
 } from "../../interface/types";
 import theme from "../../theme/theme";
 
@@ -40,7 +42,7 @@ export const createRazorpayOrder = async (
 
 export const verifyRazorpayPayment = async (
   paymentData: RazorpayVerifyRequest
-): Promise<any> => {
+): Promise<CommonResponse<RazorpayVerifyResponse>> => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
       paymentData;
@@ -52,7 +54,7 @@ export const verifyRazorpayPayment = async (
         razorpay_signature,
       }
     );
-    return response.data;
+    return response.data as any;
   } catch (error) {
     throw new Error("Failed to verify Razorpay payment");
   }

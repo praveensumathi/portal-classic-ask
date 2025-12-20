@@ -11,7 +11,6 @@ export const calculateDeliveryFee = (
   shippingState: string
 ): number => {
   let calculatedDeliveryFee = 0;
-
   const getStateLowerCase = (state: string): string => state.toLowerCase();
 
   const selectedState = getStateLowerCase(shippingState);

@@ -236,18 +236,20 @@ function OrderSummaryPage(props: IProps) {
         async (response: RazorpayPaymentResponse) => {
           try {
             // Verify payment
-            await verifyRazorpayPayment({
+            var verifyResponse = await verifyRazorpayPayment({
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_order_id: response.razorpay_order_id,
               razorpay_signature: response.razorpay_signature,
             });
 
-            // Place order with Razorpay payment info
-            await placeOrderWithRazorpay(
-              response.razorpay_payment_id,
-              response.razorpay_order_id,
-              orderData.amount / 100 // Convert back from paise
-            );
+            if (verifyResponse.data.verified) {
+              // Place order with Razorpay payment info
+              await placeOrderWithRazorpay(
+                response.razorpay_payment_id,
+                response.razorpay_order_id,
+                orderData.amount / 100 // Convert back from paise
+              );
+            }
           } catch (error: any) {
             console.error("Payment verification failed:", error);
             updateSnackBarState(true, "Payment verification failed", "error");
