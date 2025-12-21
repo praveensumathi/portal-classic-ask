@@ -31,6 +31,7 @@ function CategoryList() {
       ? 8.4
       : HomeProductsSliderSettings.slidesToShow,
     draggable: true,
+    centerMode: false,
   };
 
   return (

@@ -1,4 +1,4 @@
-import { Box, Button, Container, Typography, useTheme } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ChatIcon from "@mui/icons-material/Chat";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,7 +7,7 @@ import Bounce from "react-reveal/Bounce";
 import { useEffect } from "react";
 
 function OrderErrorPage() {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const whatsappUrl = import.meta.env?.VITE_WHATSAPP_URL ?? "https://wa.me/";
 
   // useEffect(() => {

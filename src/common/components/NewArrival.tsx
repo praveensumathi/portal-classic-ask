@@ -14,15 +14,17 @@ function NewArrival() {
     IProduct[]
   >([]);
 
+  const slidesToShow = isMediumAndAboveScreen
+    ? 5
+    : ProductsSliderSettings.slidesToShow;
+
   const sliderSettings = {
     ...ProductsSliderSettings,
-    slidesToShow: isMediumAndAboveScreen
-      ? 5
-      : ProductsSliderSettings.slidesToShow,
+    slidesToShow: slidesToShow,
     draggable: true,
     autoplay: true,
     autoplaySpeed: 2000,
-    infinite: true,
+    infinite: newArrivalProductsData.length > slidesToShow,
   };
 
   async function fetchData() {
