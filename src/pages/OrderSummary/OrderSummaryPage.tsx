@@ -355,8 +355,13 @@ function OrderSummaryPage(props: IProps) {
           <span style={{ float: "right" }}>&#8377;{checkout.itemsPrice}</span>
         </Typography>
         <Typography>
-          <span style={{ float: "left" }}>Delivery:</span>
-          <span style={{ float: "right" }}>&#8377;{deliveryFee}</span>
+          <span style={{ float: "left" }}>Delivery Fee:</span>
+          {
+            shippingDetail.state.toLowerCase() == "tamil nadu" ?
+              <span style={{ float: "right" }}>&#8377; Free</span> :
+              <span style={{ float: "right" }}>&#8377;{deliveryFee}</span>
+          }
+
         </Typography>
         <Divider sx={{ marginTop: 1 }} />
         <Typography sx={{ fontWeight: 600 }}>
