@@ -6,16 +6,22 @@ export const calculateDiscountPercentage = (MRPprice, price) => {
   return (((MRPprice - price) / MRPprice) * 100).toFixed(0);
 };
 
+const getStateLowerCase = (state: string): string => state.toLowerCase();
+
 export const calculateDeliveryFee = (
   netWeight: number,
   shippingState: string
 ): number => {
   let calculatedDeliveryFee = 0;
-  const getStateLowerCase = (state: string): string => state.toLowerCase();
 
   const selectedState = getStateLowerCase(shippingState);
 
-  if (selectedState === "tamil nadu" || selectedState === "puducherry") {
+  if (selectedState === "tamil nadu") {
+    calculatedDeliveryFee = 0;
+    return calculatedDeliveryFee;
+  }
+
+  if (selectedState === "puducherry") {
     if (netWeight > 0 && netWeight <= 1) {
       calculatedDeliveryFee = 40;
     } else if (netWeight > 1 && netWeight <= 2) {
