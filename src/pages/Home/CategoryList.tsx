@@ -120,6 +120,7 @@ function CategoryList() {
                           image={category.image}
                           title={category.name}
                           component={"img"}
+                          sx={{height : "100%",objectFit : "initial", objectPosition : "center"}}
                         />
                       </Card>
                       <Box
