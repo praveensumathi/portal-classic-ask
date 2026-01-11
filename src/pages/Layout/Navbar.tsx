@@ -59,7 +59,7 @@ function Navbar() {
     paths.PAYMENT_PROCESSING
   );
 
-  const { mybagCount } = useMyBag();
+  const { mybagCount, updateMyBagCount } = useMyBag();
   const classes = useNavbarStyle();
   const { drawerState, updateDrawerState } = useDrawer();
   const { user, updateUserData } = useAuthContext();
@@ -111,6 +111,7 @@ function Navbar() {
           localStorage.removeItem(CART_ITEMS_KEY);
           updateUserData(null);
           navigate(paths.ROOT);
+          updateMyBagCount();
           handleCloseMenu();
         }
       })

@@ -20,7 +20,7 @@ import { useAuthContext } from "../../context/AuthContext";
 import Avatar from "@mui/material/Avatar";
 import Chip from "@mui/material/Chip";
 import PhoneIcon from "@mui/icons-material/Phone";
-import { isAuthorized } from "../../services/api";
+import { isAuthorized, logOut } from "../../services/api";
 import ShippingAddress from "./ShippingAddress";
 import { useSnackBar } from "../../context/SnackBarContext";
 import { useMyBag } from "../../context/MyBagContext";
@@ -72,9 +72,21 @@ export default function VerticalLinearStepper() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
-    setCompleted({});
+  const logoutCurrentUser = async () => {
+    await logOut()
+      .then((response) => {
+        if (response.status) {
+          updateUserData(null);
+          setRenderRegister(false);
+          setActiveStep(0);
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.data) {
+          console.log(error.response.data);
+          updateSnackBarState(true, error.response.data.message, "error");
+        }
+      });
   };
 
   const steps = [
@@ -144,6 +156,7 @@ export default function VerticalLinearStepper() {
               setCustomerName(name);
               handleNext(); // Proceed to the next step
             }}
+            onChangeLoginClick={logoutCurrentUser}
           />
         );
       case 2:

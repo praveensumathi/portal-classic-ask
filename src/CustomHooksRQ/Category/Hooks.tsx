@@ -7,7 +7,7 @@ import {
   ISearchProduct,
 } from "../../interface/types";
 import { httpWithoutCredentials } from "../../services/http";
-import { useState } from "react";
+import { fetchStates } from "../../services/api";
 
 const getCategories = async () => {
   try {
@@ -97,5 +97,15 @@ export const useProductDetailById = (
     onError: (error) => onError(error),
     refetchOnMount: false,
     refetchOnWindowFocus: false,
+  });
+};
+
+export const useGetStateList = () => {
+  return useQuery({
+    queryKey: ["states"],
+    queryFn: fetchStates,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    retry: 3,
   });
 };

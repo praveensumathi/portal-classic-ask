@@ -8,6 +8,7 @@ import {
   IDateWiseOrders,
   IProduct,
   CommonResponse,
+  IAddress,
 } from "../interface/types";
 import { httpWithCredentials, httpWithoutCredentials } from "./http";
 
@@ -147,6 +148,7 @@ export async function fetchStates() {
     );
     const data = await response.json();
     const stateNames = data.map((state) => state.name);
+
     return stateNames;
   } catch (error) {
     console.error("Error fetching states: ", error);
@@ -163,6 +165,13 @@ const getNewArrivalProductsData = async () => {
   } catch (error) {
     throw error;
   }
+};
+
+export const updateUserAddress = async (
+  userId: string,
+  address: IAddress
+): Promise<void> => {
+  await httpWithCredentials.update(`/customer/${userId}/address`, address);
 };
 
 export {

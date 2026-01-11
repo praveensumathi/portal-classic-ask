@@ -8,9 +8,7 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions,
   Divider,
-  IconButton,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -24,7 +22,6 @@ import { paths } from "../../routes/paths";
 import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { WhatsApp } from "@mui/icons-material";
-import { UserRoles } from "../../constants/Constants";
 
 interface LoginProps {
   onLogin?(): void;
@@ -35,14 +32,14 @@ interface LoginProps {
 const schema = yup.object().shape({
   phoneNumber: yup
     .string()
-    .required()
+    .required("Please enter PhoneNumber")
     .typeError("Please enter the PhoneNumber")
     .matches(
       /[6-9]{1}[0-9 ]{4}[0-9 ]{4}[0-9]{1}/,
       "Please enter a valid phone number"
     )
     .max(10),
-  password: yup.string().required("Password is required"),
+  //password: yup.string().required("Password is required"),
 });
 
 function Login({ onLogin, requiredHeading, onRegisterLinkClick }: LoginProps) {
@@ -135,31 +132,34 @@ function Login({ onLogin, requiredHeading, onRegisterLinkClick }: LoginProps) {
           justifyContent: "center",
           alignItems: "center",
           p: 2,
+          flexDirection: "column",
         }}
       >
-        <Box>
-          <Typography variant="h5" align="center" gutterBottom>
-            {requiredHeading && "Login"}
+        <Typography variant="h5" align="center" gutterBottom>
+          {requiredHeading && "Login"}
+        </Typography>
+        <form
+          onSubmit={handleSubmit(handleLogin)}
+          style={{ marginTop: requiredHeading ? "2rem" : 0 }}
+        >
+          <Typography>
+            PhoneNumber<span style={{ color: "red" }}>*</span>
           </Typography>
-          <form onSubmit={handleSubmit(handleLogin)}>
-            <Typography>
-              PhoneNumber<span style={{ color: "red" }}>*</span>
-            </Typography>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              type="tel"
-              {...register("phoneNumber")}
-              error={!!errors.phoneNumber}
-              helperText={errors.phoneNumber?.message?.toString()}
-              FormHelperTextProps={{
-                sx: { color: "red", marginLeft: "0px" },
-              }}
-              autoComplete="new"
-              required
-            />
-            <Typography>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            type="tel"
+            {...register("phoneNumber")}
+            error={!!errors.phoneNumber}
+            helperText={errors.phoneNumber?.message?.toString()}
+            FormHelperTextProps={{
+              sx: { color: "red", marginLeft: "0px" },
+            }}
+            autoComplete="new"
+            required
+          />
+          {/* <Typography>
               Password<span style={{ color: "red" }}>*</span>
             </Typography>
             <TextField
@@ -175,25 +175,24 @@ function Login({ onLogin, requiredHeading, onRegisterLinkClick }: LoginProps) {
             />
             <Link sx={{ float: "right" }} onClick={handleForgotPasswordClick}>
               Forgot Password?
-            </Link>
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              sx={{ marginTop: 3 }}
-              type="submit"
-            >
-              Login
-            </Button>
-            <FormHelperText sx={{ textAlign: "center", paddingTop: "5px" }}>
-              <Box sx={{ cursor: "pointer" }} fontSize="15px">
-                Don't have an Account?
-                <br /> Please &nbsp;
-                <Link onClick={handleRegisterLinkClick}>Register</Link>
-              </Box>
-            </FormHelperText>
-          </form>
-        </Box>
+            </Link> */}
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ marginTop: 3 }}
+            type="submit"
+          >
+            Login
+          </Button>
+          <FormHelperText sx={{ textAlign: "center", paddingTop: "5px" }}>
+            <Box sx={{ cursor: "pointer" }} fontSize="15px">
+              Don't have an Account?
+              <br /> Please &nbsp;
+              <Link onClick={handleRegisterLinkClick}>Register</Link>
+            </Box>
+          </FormHelperText>
+        </form>
       </Box>
       <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>

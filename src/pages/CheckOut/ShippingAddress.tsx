@@ -5,17 +5,17 @@ import {
   TextField,
   Typography,
   Box,
-  Select,
-  MenuItem,
 } from "@mui/material";
-import { json, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
-import { fetchStates } from "../../services/api";
+import { updateUserAddress } from "../../services/api";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useAuthContext } from "../../context/AuthContext";
+import AddressConfirmDialog from "./AddressConfirmDialog";
+import { useGetStateList } from "../../CustomHooksRQ/Category/Hooks";
+import { IUser } from "../../interface/types";
 
 interface AddressProps {
   onNext: (
@@ -26,6 +26,7 @@ interface AddressProps {
     state: string,
     name: string
   ) => void;
+  onChangeLoginClick: () => void;
 }
 
 interface IFormInputFields {
@@ -59,21 +60,65 @@ const schema = yup.object().shape({
   state: yup.string().required("State is mandatory"),
 });
 
-function ShippingAddress({ onNext }: AddressProps) {
+function ShippingAddress({ onNext, onChangeLoginClick }: AddressProps) {
   const {
     register,
     handleSubmit,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm<IFormInputFields>({
     resolver: yupResolver(schema),
     mode: "all",
   });
 
-  const { user } = useAuthContext();
+  const { user, updateUserData } = useAuthContext();
+
+  const [confirmAddressOpen, setConfirmAddressOpen] = useState(false);
+
+  const handleContinueClick = () => {
+    setConfirmAddressOpen(true);
+  };
+
+  const handleConfirmAddress = async () => {
+    if (!user?.userId) return;
+
+    const addressPayload = {
+      address: getValues("address"),
+      district: getValues("district"),
+      pincode: getValues("pincode"),
+      state: getValues("state"),
+    };
+
+    try {
+      await updateUserAddress(user.userId, addressPayload);
+
+      setConfirmAddressOpen(false);
+      // go to next step
+      handleSubmit(handleSubmitShippingDetails)();
+    } catch (error) {
+      console.error("Failed to update address", error);
+    }
+  };
 
   const handleSubmitShippingDetails = async (data: IFormInputFields) => {
     try {
+      const formShippingData = {
+        ...data,
+        selectedState,
+      };
+
+      if (user && user.userId) {
+        localStorage.setItem(user.userId, JSON.stringify(formShippingData));
+      }
+
+      updateUserData({
+        ...user,
+        address: {
+          ...data,
+        },
+      } as IUser);
+
       onNext(
         data.address,
         data.phoneNumber,
@@ -82,13 +127,6 @@ function ShippingAddress({ onNext }: AddressProps) {
         data.state,
         data.name
       );
-      const formShippingData = {
-        ...data,
-        selectedState,
-      };
-      if (user && user.userId) {
-        localStorage.setItem(user.userId, JSON.stringify(formShippingData));
-      }
     } catch (error) {
       console.error(error);
     }
@@ -96,43 +134,62 @@ function ShippingAddress({ onNext }: AddressProps) {
 
   const [stateList, setStateList] = useState([]);
   const [selectedState, setSelectedState] = useState("");
-  const [shippingDetailsFormData, setShippingDetailsFormData] =
-    useState<IFormInputFields>({
-      phoneNumber: "",
-      address: "",
-      pincode: "",
-      district: "",
-      state: "",
-      name: "",
-    });
+  // const [shippingDetailsFormData, setShippingDetailsFormData] =
+  //   useState<IFormInputFields>({
+  //     phoneNumber: "",
+  //     address: "",
+  //     pincode: "",
+  //     district: "",
+  //     state: "",
+  //     name: "",
+  //   });
+
+  const { data: _states, isLoading, isFetching } = useGetStateList();
 
   useEffect(() => {
-    fetchData();
+    setStateList(_states);
+  }, [!isLoading && !isFetching && _states]);
+
+  useEffect(() => {
+    fetchAddressData();
   }, []);
 
-  const fetchData = async () => {
-    const states = await fetchStates();
-    setStateList(states);
-    if (user && user.userId) {
-      const savedFormData = localStorage.getItem(user?.userId);
-      if (savedFormData) {
-        const parsedFormData = JSON.parse(savedFormData);
-        setShippingDetailsFormData(parsedFormData);
+  const fetchAddressData = async () => {
+    if (!user || !user.userId) return;
 
-        setValue("name", parsedFormData.name ?? "");
-        setValue("address", parsedFormData.address);
-        setValue("phoneNumber", parsedFormData.phoneNumber);
-        setValue("district", parsedFormData.district);
-        setValue("pincode", parsedFormData.pincode);
-        setSelectedState(parsedFormData.selectedState);
-        setValue("state", parsedFormData.selectedState);
-      }
+    // Always set basic fields from user
+    setValue("name", user.name ?? "");
+    setValue("phoneNumber", user.phoneNumber ?? "");
+
+    // 👉 1️⃣ First priority: address from user (API)
+    if (user.address) {
+      const address = user.address;
+
+      setValue("address", address.address ?? "");
+      setValue("district", address.district ?? "");
+      setValue("pincode", address.pincode ?? "");
+      setValue("state", address.state ?? "");
+      setSelectedState(address.state ?? "");
+
+      return; // 👈 stop here, do NOT use localStorage
+    }
+
+    // 👉 2️⃣ Fallback: localStorage
+    const savedFormData = localStorage.getItem(user.userId);
+    if (savedFormData) {
+      const parsedFormData = JSON.parse(savedFormData);
+
+      setValue("address", parsedFormData.address ?? "");
+      setValue("district", parsedFormData.district ?? "");
+      setValue("pincode", parsedFormData.pincode ?? "");
+      setValue("state", parsedFormData.selectedState ?? "");
+      setSelectedState(parsedFormData.selectedState ?? "");
     }
   };
 
   return (
     <Box mt={1}>
-      <form onSubmit={handleSubmit(handleSubmitShippingDetails)}>
+      <form>
         <Grid container spacing={1}>
           <Grid item xs={12}>
             <Typography>
@@ -231,18 +288,21 @@ function ShippingAddress({ onNext }: AddressProps) {
             />
           </Grid>
           <Grid item xs={12}>
+            <Typography>
+              State<span style={{ color: "red" }}>*</span>
+            </Typography>
             <Autocomplete
-              sx={{ width: "100%", paddingTop: "10px" }}
+              sx={{ width: "100%" }}
               value={selectedState}
               onChange={(event, newValue) => {
                 setSelectedState(newValue || "");
                 setValue("state", newValue ?? "");
               }}
-              options={stateList}
+              options={stateList ?? []}
               renderInput={(params) => (
                 <TextField
                   required
-                  label="Select a state"
+                  placeholder="Select State"
                   error={!!errors.state}
                   helperText={errors?.state?.message?.toString()}
                   {...params}
@@ -255,13 +315,33 @@ function ShippingAddress({ onNext }: AddressProps) {
               variant="contained"
               fullWidth
               sx={{ marginTop: "15px" }}
-              type="submit"
+              onClick={handleContinueClick}
+              type="button"
             >
               Continue
             </Button>
           </Grid>
+          <Grid item xs={12}>
+            <Button
+              variant="outlined"
+              fullWidth
+              onClick={onChangeLoginClick}
+              type="button"
+            >
+              Change Login Number
+            </Button>
+          </Grid>
         </Grid>
       </form>
+      {confirmAddressOpen && (
+        <>
+          <AddressConfirmDialog
+            open={confirmAddressOpen}
+            onCancel={() => setConfirmAddressOpen(false)}
+            onConfirm={handleConfirmAddress}
+          />
+        </>
+      )}
     </Box>
   );
 }

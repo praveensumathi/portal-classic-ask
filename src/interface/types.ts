@@ -162,12 +162,21 @@ export interface IAuthContext {
   updateUserData: (user: IUser | null) => void;
 }
 
+export interface IAddress {
+  address: string;
+  pincode: string;
+  district: string;
+  state: string;
+  _id?: string;
+}
+
 export interface IUser {
   userId: string | null;
   phoneNumber: string | null;
   name: string | null;
   isReseller: boolean;
   role: string | null;
+  address?: IAddress | null;
 }
 
 export interface ILoginResponse {
@@ -178,7 +187,7 @@ export interface ILoginResponse {
 
 export interface ILoginFormInputs {
   phoneNumber: string;
-  password: string;
+  password?: string;
   role?: string;
 }
 
