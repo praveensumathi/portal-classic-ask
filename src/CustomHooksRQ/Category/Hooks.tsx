@@ -2,9 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   ICategory,
   ICategoryWithProducts,
-  IProduct,
   IProductDetails,
-  ISearchProduct,
 } from "../../interface/types";
 import { httpWithoutCredentials } from "../../services/http";
 import { fetchStates } from "../../services/api";
