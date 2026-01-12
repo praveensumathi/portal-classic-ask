@@ -107,5 +107,6 @@ export const useGetStateList = () => {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     retry: 3,
+    staleTime: Infinity,
   });
 };
